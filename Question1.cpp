@@ -85,9 +85,18 @@ void finding(int n, int k){
     cout << seq[k-1] << endl;
 }
 
+
+void writing_outputs_in_file(const string file_name, const int n, const int k){
+    ofstream Ouputfile(file_name);
+    streambuf* orignial_buffer = cout.rdbuf();
+    cout.rdbuf(Ouputfile.rdbuf());
+    finding(n, k);
+    cout.rdbuf(orignial_buffer);
+}
+
 int main(int arg , char*argv[]){
     my_input inputs = assign_to_my_input(reading_from_file(argv[1]));
     exception_handeling(inputs);
-    finding(inputs.n, inputs.k); 
+    writing_outputs_in_file(argv[2], inputs.n, inputs.k); 
     return 0;
 }

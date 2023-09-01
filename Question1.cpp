@@ -16,7 +16,7 @@ struct my_input{
     long long int k;
 };
 
-vector<string> reading_from_file(string file_name){
+vector<string> reading_from_file(const string file_name){
     ifstream reading_file(file_name);
     string line;
     vector<string> lines;
@@ -27,7 +27,7 @@ vector<string> reading_from_file(string file_name){
     return lines;
 }
 
-void exception_handeling(my_input inputs){
+void exception_handeling(const my_input inputs){
     if(inputs.n < MIN_N || inputs.n > MAX_N){
         throw runtime_error("Invalid input for n");
     }
@@ -36,7 +36,7 @@ void exception_handeling(my_input inputs){
     }
 }
 
-my_input assign_to_my_input(vector<string> lines){
+my_input assign_to_my_input(const vector<string> lines){
     my_input result;
     result.n = stoi(lines[0]);
     result.k = stoll(lines[1]);

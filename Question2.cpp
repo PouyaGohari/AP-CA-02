@@ -45,10 +45,10 @@ string times_of_string(coded_string& coded){
 
 int finding_square_indexs(const string str,int i ,const char which_one){
     if(which_one == OPENING_SQUARE_BRACKET){
-        if(str[i] == OPENING_SQUARE_BRACKET) return i;
+        if(str[i] == OPENING_SQUARE_BRACKET || i == 0) return i;
         return finding_square_indexs(str, i-1, which_one);
     }
-    if(str[i] == CLOSING_SQUARE_BRACKET) return i;
+    if(str[i] == CLOSING_SQUARE_BRACKET || i == str.size()) return i;
     return finding_square_indexs(str, i+1, which_one);
 }
 

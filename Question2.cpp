@@ -59,6 +59,30 @@ open_close_indexes finding_inner_square(const string str){
     return indexes;
 }
 
+string number_behind_open_square(const string str, int it){
+    if(!isdigit(str[it])) return "";
+    return number_behind_open_square(str, it-1) + str[it];
+}
+
+string decode_partially(const string str, open_close_indexes index){
+    string number = number_behind_open_square(str, index.open_index - 1);
+    string before_number(str.begin(), str.begin() + index.open_index - number.size());
+    string after_closed_square(str.begin() + index.close_index + 1, str.end());
+    string remained(str.begin()+ index.open_index + 1, str.begin() + index.close_index);
+    coded_string code(stoi(number), remained);
+    return before_number + times_of_string(code) + after_closed_square;
+}
+
+void decoding(const string str, string& acc){
+    open_close_indexes index = finding_inner_square(str);
+    if(index.open_index == 0 && index.close_index == str.size()){
+        acc += str;
+        return;
+    }
+    string new_str = decode_partially(str, index);
+    decoding(new_str, acc);
+}
+
 int main(int argc, char*argv[]){
     string line = reading_from_file(argv[1]);
     return 0;

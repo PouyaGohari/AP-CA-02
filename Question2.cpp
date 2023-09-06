@@ -7,7 +7,7 @@
 using namespace std;
 
 const int MIN_LENGTH = 1;
-const int MAX_LENGHT = 30;
+const int MAX_LENGHT = 100;
 const char OPENING_SQUARE_BRACKET = '[';
 const char CLOSING_SQUARE_BRACKET = ']';
 

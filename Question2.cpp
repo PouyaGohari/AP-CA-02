@@ -32,6 +32,7 @@ string reading_from_file(const string file_name){
     string line;
     getline(input_file, line);
     exception_handeling(line);
+    input_file.close();
     return line;
 }
 
@@ -83,7 +84,19 @@ void decoding(const string str, string& acc){
     decoding(new_str, acc);
 }
 
+void writing_output_file(const string file_name, const string acc){
+    ofstream Output(file_name);
+    streambuf* oringin_buff = cout.rdbuf();
+    cout.rdbuf(Output.rdbuf());
+    cout << acc << endl;
+    cout.rdbuf(oringin_buff);
+    Output.close();
+}
+
 int main(int argc, char*argv[]){
     string line = reading_from_file(argv[1]);
+    string acc = "";
+    decoding(line, acc);
+    writing_output_file(argv[2], acc);
     return 0;
 }

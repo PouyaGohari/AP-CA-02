@@ -7,17 +7,13 @@
 using namespace std;
 
 const string SEPARATOR = "###";
+const char SPACE = ' ';
 
 struct given_inputs{
     vector<string> meaning_words;
     vector<string> sentences;
     given_inputs(vector<string> mean_val, vector<string> sent_val) :
      meaning_words(mean_val), sentences(sent_val) {}
-};
-
-struct fitted_word_per_sentence{
-    vector<string> suitable_words;
-    string sentece;
 };
 
 vector<string> reading_from_file(const string file_name){
@@ -49,29 +45,32 @@ given_inputs filling_strcut_with_inputs(const vector<string> lines){
     return result;
 }
 
-vector<string> finding_suitable_words(const string sentence, const vector<string> meaning_words){
-    vector<string> suitable_words;
-    for(auto word : meaning_words){
-        size_t found = sentence.find(word);
-        if(found == string::npos){
-            suitable_words.push_back(word);
+void get_word_breaks(string sentence, vector<string> dictionary, vector<string>& word_breaks, string result = ""){
+    for(int i = 1 ; i <= sentence.size(); i++){
+        string prefix = sentence.substr(0,i);
+        if(find(dictionary.begin(), dictionary.end(), prefix) != dictionary.end()){
+            if(i == sentence.size()){
+                result += prefix;
+                word_breaks.push_back(result);
+                return;
+            }
+            get_word_breaks(sentence.substr(i, sentence.size()), dictionary, word_breaks, result + prefix + " ");
         }
     }
-    return suitable_words;
 }
 
-vector<fitted_word_per_sentence> reassigning(const given_inputs inputs){
-    vector<fitted_word_per_sentence> result;
-    for(auto sentence : inputs.sentences){
-        fitted_word_per_sentence temp;
-        temp.suitable_words = finding_suitable_words(sentence, inputs.meaning_words);
-        temp.sentece = sentence;
-        result.push_back(temp);
+vector<vector<string>> get_all_word_breaks(given_inputs inputs){
+    vector<vector<string>> all_words_breaks;
+    for(auto sentence: inputs.sentences){
+        vector<string> word_breaks;
+        get_word_breaks(sentence, inputs.meaning_words, word_breaks);
+        all_words_breaks.push_back(word_breaks);
     }
-    return result;
+    return all_words_breaks;
 }
 
 int main(int argc, char*argv[]){
-    vector<fitted_word_per_sentence> inputs = reassigning(filling_strcut_with_inputs(reading_from_file(argv[1])));
+    given_inputs inputs = filling_strcut_with_inputs(reading_from_file(argv[1]));
+    vector<vector<string>> all_possible_answers = get_all_word_breaks(inputs);
     return 0;
 }

@@ -1,5 +1,5 @@
 # My Repository
-In this repo which is my third project in AP's course in UOT [University Of Tehran](https://ece.ut.ac.ir/en) we learn to how write functions recursively.
+In this repo which is my third project in AP's course in UOT [University Of Tehran](https://ece.ut.ac.ir/en) we learn how to write functions recursively.
 ## Installations 
 You should run this in c++ IDE or in Linux OS.
 ## Usage

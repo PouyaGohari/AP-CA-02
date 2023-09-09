@@ -8,6 +8,7 @@ using namespace std;
 
 const string SEPARATOR = "###";
 const char SPACE = ' ';
+const string PRINT_DELIM = "***";
 
 struct given_inputs{
     vector<string> meaning_words;
@@ -45,7 +46,7 @@ given_inputs filling_strcut_with_inputs(const vector<string> lines){
     return result;
 }
 
-void get_word_breaks(string sentence, vector<string> dictionary, vector<string>& word_breaks, string result = ""){
+void get_word_breaks(const string sentence,const vector<string> dictionary, vector<string>& word_breaks, string result = ""){
     for(int i = 1 ; i <= sentence.size(); i++){
         string prefix = sentence.substr(0,i);
         if(find(dictionary.begin(), dictionary.end(), prefix) != dictionary.end()){
@@ -59,7 +60,7 @@ void get_word_breaks(string sentence, vector<string> dictionary, vector<string>&
     }
 }
 
-vector<vector<string>> get_all_word_breaks(given_inputs inputs){
+vector<vector<string>> get_all_word_breaks(const given_inputs inputs){
     vector<vector<string>> all_words_breaks;
     for(auto sentence: inputs.sentences){
         vector<string> word_breaks;
@@ -69,8 +70,27 @@ vector<vector<string>> get_all_word_breaks(given_inputs inputs){
     return all_words_breaks;
 }
 
+void print_possible_answers(const vector<vector<string>> all_possible_answers){
+    for(auto answers : all_possible_answers){
+        for(auto answer : answers){
+            cout << answer << endl;
+        }
+        cout << PRINT_DELIM << endl;
+    }
+}
+
+void writing_in_file(const string file_name, const vector<vector<string>> all_possible_answers){
+    ofstream my_file(file_name);
+    streambuf* origin = cout.rdbuf();
+    cout.rdbuf(my_file.rdbuf());
+    print_possible_answers(all_possible_answers);
+    cout.rdbuf(origin);
+    my_file.close();
+}
+
 int main(int argc, char*argv[]){
     given_inputs inputs = filling_strcut_with_inputs(reading_from_file(argv[1]));
     vector<vector<string>> all_possible_answers = get_all_word_breaks(inputs);
+    writing_in_file(argv[2], all_possible_answers);
     return 0;
 }

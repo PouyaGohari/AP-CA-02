@@ -9,6 +9,7 @@ using namespace std;
 const string SEPARATOR = "###";
 const char SPACE = ' ';
 const string PRINT_DELIM = "***";
+const string NO_POSSIBLE = "-1";
 
 struct given_inputs{
     vector<string> meaning_words;
@@ -72,8 +73,11 @@ vector<vector<string>> get_all_word_breaks(const given_inputs inputs){
 
 void print_possible_answers(const vector<vector<string>> all_possible_answers){
     for(auto answers : all_possible_answers){
-        for(auto answer : answers){
-            cout << answer << endl;
+        if(answers.size() == 0) cout << NO_POSSIBLE << endl;
+        else{
+            for(auto answer : answers){
+                cout << answer << endl;
+            }
         }
         cout << PRINT_DELIM << endl;
     }
